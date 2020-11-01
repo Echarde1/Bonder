@@ -1,0 +1,26 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '
+
+install! 'cocoapods', :disable_input_output_paths => true
+
+target 'iosApp' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for iosApp
+
+  target 'iosAppTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'iosAppUITests' do
+    # Pods for testing
+  end
+  
+  pod 'MultiPlatformLibrary', :path => '../shared'
+
+  pod 'MultiPlatformLibraryMvvm', :git => 'https://github.com/icerockdev/moko-mvvm.git', :tag => 'release/0.8.0'
+
+
+end

@@ -4,6 +4,7 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("kotlin-android-extensions")
+//    id("dev.icerock.mobile.multiplatform.ios-framework")
 }
 group = "com.brocoding.bonder"
 version = "1.0-SNAPSHOT"
