@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,14 +20,20 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.ui.tooling.preview.Preview
-import com.brocoding.bonder.androidApp.details.BondDetailsFragment
 import com.brocoding.bonder.androidApp.R
+import com.brocoding.bonder.androidApp.details.BondDetailsFragment
+import com.brocoding.bonder.shared.BondsListViewModel
 import com.brocoding.bonder.shared.Greeting
+import kotlinx.coroutines.flow.collect
 
 class BondsFragment : Fragment() {
+
+    private val bondsViewModel: BondsListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +44,16 @@ class BondsFragment : Fragment() {
             setContent {
                 getBondsContent()
             }
+        }
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            bondsViewModel.count.collect {
+
+            }
+            Toast.makeText(requireContext(), "Дороу $", Toast.LENGTH_SHORT).show()
         }
     }
 
