@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/bondsFragment"
-        android:name="com.brocoding.bonder.androidApp.list.BondsFragment"
+        android:name="com.brocoding.bonder.androidApp.list.BondsListFragment"
         android:label="Bonds">
         <action
             android:id="@+id/action_bondsFragment_to_bondDetailsFragment"

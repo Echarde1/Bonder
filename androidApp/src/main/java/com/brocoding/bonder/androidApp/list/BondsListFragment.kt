@@ -1,10 +1,10 @@
 package com.brocoding.bonder.androidApp.list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,11 +27,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.ui.tooling.preview.Preview
 import com.brocoding.bonder.androidApp.R
 import com.brocoding.bonder.androidApp.details.BondDetailsFragment
-import com.brocoding.bonder.shared.BondsListViewModel
+import com.brocoding.bonder.shared.feature.list.presentation.BondsListState
+import com.brocoding.bonder.shared.feature.list.presentation.BondsListViewModel
 import com.brocoding.bonder.shared.Greeting
 import kotlinx.coroutines.flow.collect
 
-class BondsFragment : Fragment() {
+class BondsListFragment : Fragment() {
 
     private val bondsViewModel: BondsListViewModel by viewModels()
 
@@ -50,10 +51,13 @@ class BondsFragment : Fragment() {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            bondsViewModel.count.collect {
-
+            bondsViewModel.state.collect {
+                when (it) {
+                    BondsListState.Loading -> Log.i("mytag", "LOOOOOADDDDDING")
+                    is BondsListState.Success -> Log.i("mytag", "result: ${it.result}")
+                    is BondsListState.Error -> Log.i("mytag", it.th.message!!)
+                }
             }
-            Toast.makeText(requireContext(), "Дороу $", Toast.LENGTH_SHORT).show()
         }
     }
 

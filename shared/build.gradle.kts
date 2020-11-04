@@ -33,7 +33,8 @@ kotlin {
                 implementation("org.jetbrains.kotlin:kotlin-stdlib-common:1.4.10")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.3.8")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:0.20.0")
+//                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:0.20.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
                 implementation("org.kodein.di:kodein-di-core:6.5.5")
                 implementation("org.kodein.di:kodein-di-erased:6.5.5")
                 implementation("io.ktor:ktor-client-core:1.4.1")
@@ -53,7 +54,8 @@ kotlin {
             dependencies {
                 implementation("com.google.android.material:material:1.2.0")
                 implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0")
+//                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:1.0-M1-1.4.0-rc")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
                 implementation("io.ktor:ktor-client-android:1.4.1")
             }
         }
@@ -67,7 +69,7 @@ kotlin {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.8")
                 implementation("org.jetbrains.kotlin:kotlin-stdlib-common:1.4.10")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:0.20.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
                 implementation("io.ktor:ktor-client-ios:1.4.1")
             }
         }
