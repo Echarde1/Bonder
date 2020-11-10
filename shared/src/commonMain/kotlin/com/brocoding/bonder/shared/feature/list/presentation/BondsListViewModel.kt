@@ -1,19 +1,20 @@
 package com.brocoding.bonder.shared.feature.list.presentation
 
-import com.brocoding.bonder.shared.data.dto.ShortBond
+import com.brocoding.bonder.shared.data.dto.ListBond
 import com.brocoding.bonder.shared.base.Response
+import com.brocoding.bonder.shared.data.BonderApi
 import com.brocoding.bonder.shared.service_locator.ServiceLocator
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class BondsListViewModel : ViewModel() {
+class BondsListViewModel(
+    private val bonderApi: BonderApi = ServiceLocator.bonderApi
+) : ViewModel() {
 
     private val _state = MutableStateFlow<BondsListState>(BondsListState.Loading)
     val state: StateFlow<BondsListState> = _state
-
-    private val bonderApi by lazy { ServiceLocator.bonderApi }
 
     init {
         viewModelScope.launch {
@@ -26,7 +27,7 @@ class BondsListViewModel : ViewModel() {
             is Response.Error -> _state.value = BondsListState.Error(response.exception)
             is Response.Success -> _state.value = BondsListState.Success(
                 listOf(
-                    ShortBond(
+                    ListBond(
                         secid = "RU000A0JNYN1",
                         sec_name = "Гор.Обл.Займ Москвы 48 в.",
                         prev_price = 101.51,

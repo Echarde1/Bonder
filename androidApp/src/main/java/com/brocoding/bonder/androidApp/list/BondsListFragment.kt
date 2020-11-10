@@ -27,9 +27,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.ui.tooling.preview.Preview
 import com.brocoding.bonder.androidApp.R
 import com.brocoding.bonder.androidApp.details.BondDetailsFragment
-import com.brocoding.bonder.shared.feature.list.presentation.BondsListState
+import com.brocoding.bonder.shared.feature.ViewState
 import com.brocoding.bonder.shared.feature.list.presentation.BondsListViewModel
 import com.brocoding.bonder.shared.Greeting
+import com.brocoding.bonder.shared.data.dto.ListBond
 import kotlinx.coroutines.flow.collect
 
 class BondsListFragment : Fragment() {
@@ -53,9 +54,9 @@ class BondsListFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             bondsViewModel.state.collect {
                 when (it) {
-                    BondsListState.Loading -> Log.i("mytag", "LOOOOOADDDDDING")
-                    is BondsListState.Success -> Log.i("mytag", "result: ${it.result}")
-                    is BondsListState.Error -> Log.i("mytag", it.th.message!!)
+                    is ViewState.Loading -> Log.i("mytag", "LOOOOOADDDDDING")
+                    is ViewState.Success<*> -> Log.i("mytag", "result: ${it.result}")
+                    is ViewState.Error -> Log.i("mytag", it.th.message!!)
                 }
             }
         }

@@ -1,17 +1,17 @@
 package com.brocoding.bonder.shared.feature.list.presentation
 
-import com.brocoding.bonder.shared.data.dto.ShortBond
+import com.brocoding.bonder.shared.data.dto.ListBond
 
 sealed class BondsListState {
 
     object Loading : BondsListState()
 
-    data class Error(
+    class Error(
         val th: Throwable
     ) : BondsListState()
 
-    data class Success(
-        val result: List<ShortBond>
+    class Success(
+        val result: List<ListBond>
     ) : BondsListState()
 
 }

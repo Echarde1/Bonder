@@ -5,8 +5,6 @@ plugins {
     id("com.android.library")
     id("kotlin-android-extensions")
     id("kotlinx-serialization")
-//    id("dev.icerock.mobile.multiplatform.ios-framework")
-//    id("dev.icerock.mobile.multiplatform-resources")
 }
 group = "com.brocoding.bonder"
 version = "1.0-SNAPSHOT"
@@ -35,8 +33,6 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.3.8")
 //                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:0.20.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
-                implementation("org.kodein.di:kodein-di-core:6.5.5")
-                implementation("org.kodein.di:kodein-di-erased:6.5.5")
                 implementation("io.ktor:ktor-client-core:1.4.1")
                 api("dev.icerock.moko:mvvm:0.8.0")
                 api("dev.icerock.moko:resources:0.13.1")
@@ -54,7 +50,6 @@ kotlin {
             dependencies {
                 implementation("com.google.android.material:material:1.2.0")
                 implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-//                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:1.0-M1-1.4.0-rc")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
                 implementation("io.ktor:ktor-client-android:1.4.1")
             }
@@ -80,7 +75,7 @@ android {
     compileSdkVersion(30)
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdkVersion(24)
+        minSdkVersion(21)
         targetSdkVersion(30)
         versionCode = 1
         versionName = "1.0"
