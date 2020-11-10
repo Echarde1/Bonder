@@ -2,8 +2,6 @@ package com.brocoding.bonder.shared.feature.details.presentation
 
 import com.brocoding.bonder.shared.base.Response
 import com.brocoding.bonder.shared.data.BonderApi
-import com.brocoding.bonder.shared.data.dto.DetailsBond
-import com.brocoding.bonder.shared.feature.ViewState
 import com.brocoding.bonder.shared.service_locator.ServiceLocator
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,22 +25,7 @@ class BondDetailsViewModel(
     private suspend fun getBondsDetails() {
         when (val response = bonderApi.getBondDetails(secId)) {
             is Response.Error -> _state.value = BondDetailsState.Error(response.exception)
-            is Response.Success -> _state.value = BondDetailsState.Success(
-                DetailsBond(
-                    secid = "RU000A0JNYN1",
-                    sec_name = "Гор.Обл.Займ Москвы 48 в.",
-                    prev_price = 101.51,
-                    offer_date = "",
-                    maturity_date = "2022-06-11",
-                    list_level = 1,
-                    isin = "RU000A0JNYN1",
-                    duration = 558,
-                    coupon_value = "30.08",
-                    coupon_percent = "6",
-                    board_id = "TQCB",
-                    accumulated_coupon_income = "23.67"
-                )
-            )
+            is Response.Success -> _state.value = BondDetailsState.Success(response.data)
         }
     }
 }
