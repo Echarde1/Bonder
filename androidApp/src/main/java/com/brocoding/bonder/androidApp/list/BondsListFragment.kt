@@ -9,28 +9,31 @@ import androidx.compose.foundation.Text
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.foundation.lazy.LazyColumnForIndexed
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Snackbar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import androidx.ui.tooling.preview.Preview
 import com.brocoding.bonder.androidApp.R
 import com.brocoding.bonder.androidApp.details.BondDetailsFragment
 import com.brocoding.bonder.shared.Greeting
 import com.brocoding.bonder.shared.feature.list.presentation.BondsListState
 import com.brocoding.bonder.shared.feature.list.presentation.BondsListViewModel
-import kotlinx.coroutines.flow.collect
 
 class BondsListFragment : Fragment() {
 
@@ -43,46 +46,61 @@ class BondsListFragment : Fragment() {
     ): View? {
         return ComposeView(requireContext()).apply {
             setContent {
-                getBondsContent()
+                BondsListScreen()
             }
         }
     }
 
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            bondsViewModel.state.collect {
-                when (it) {
-                    BondsListState.Loading -> Log.i("mytag", "LOOOOOADDDDDING")
-                    is BondsListState.Success -> Log.i("mytag", "result: ${it.result}")
-                    is BondsListState.Error -> Log.i("mytag", it.th.message!!)
+    @Composable
+    private fun BondsListScreen() {
+        val state: BondsListState by bondsViewModel.state.collectAsState()
+
+        BondsList(state)
+    }
+
+    @Composable
+    private fun BondsList(state: BondsListState) {
+        when (state) {
+            BondsListState.Loading -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator(
+                        Modifier
+                            .size(Dp(150F))
+                    )
                 }
             }
-        }
-    }
+            is BondsListState.Success -> {
+                LazyColumnFor(
+                    modifier = Modifier.fillMaxSize(),
+                    items = state.result
+                ) { bond ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clickable(onClick = { goToDetails(bond.secid) }),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .preferredSize(100.dp)
+                                .padding(16.dp)
+                                .clip(CircleShape)
+                                .background(Color.Red)
+                        )
 
-    @Preview
-    @Composable
-    private fun getBondsContent() {
-        LazyColumnForIndexed(
-            modifier = Modifier.fillMaxSize(),
-            items = (1..10).toList()
-        ) { idx, _ ->
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clickable(onClick = { goToDetails(idx.toString()) }),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    modifier = Modifier
-                        .preferredSize(100.dp)
-                        .padding(16.dp)
-                        .clip(CircleShape)
-                        .background(Color.Red)
+                        Text("${greet()} ${bond.secid}")
+                    }
+                }
+            }
+            is BondsListState.Error -> {
+                Snackbar(
+                    text = { Text(text = "Error епта") }
                 )
-
-                Text("${greet()} $idx")
             }
         }
     }

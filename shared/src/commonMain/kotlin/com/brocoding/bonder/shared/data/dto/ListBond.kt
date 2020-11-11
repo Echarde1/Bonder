@@ -12,8 +12,8 @@ data class ListBond(
     val list_level: Int,
     val isin: String,
     val duration: Int,
-    val coupon_value: String,
-    val coupon_percent: String,
+    val coupon_value: Double,
+    val coupon_percent: Double,
     val board_id: String,
-    val accumulated_coupon_income: String
+    val accumulated_coupon_income: Double
 )

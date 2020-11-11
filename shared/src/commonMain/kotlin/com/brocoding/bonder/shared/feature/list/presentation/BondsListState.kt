@@ -15,3 +15,9 @@ sealed class BondsListState {
     ) : BondsListState()
 
 }
+
+data class SillyState(
+    val result: List<ListBond> = emptyList(),
+    val err: Throwable? = null,
+    val loading: Boolean = false
+)

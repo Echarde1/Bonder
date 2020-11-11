@@ -26,8 +26,11 @@ class BonderApi(
 
     suspend fun getBondDetails(secId: String): Response<DetailsBond> {
         return try {
-            val url = "https://inv-realtime-server.herokuapp.com/bonds/details?=${secId}"
-            val json = httpClient.get<String>(url)
+            val url = "https://inv-realtime-server.herokuapp.com/bonds/details"
+//            val url = "https://inv-realtime-server.herokuapp.com/bonds/details?secid=${secId}"
+            val json = httpClient.get<String>(
+                url, { parameter("secid", secId) }
+            )
 
             val response = Json.decodeFromString(DetailsBond.serializer(), json)
             Response.Success(response)

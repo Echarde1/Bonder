@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 data class DetailsBond(
     val secid: String,
     val type: String,
+    val type_name: String,
     val sec_subtype: String?,
     val name: String,
     val is_for_qualified: Boolean,
