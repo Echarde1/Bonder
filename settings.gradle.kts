@@ -4,6 +4,10 @@ pluginManagement {
         google()
         jcenter()
         mavenCentral()
+
+        maven { url = uri("https://dl.bintray.com/kotlin/kotlin") }
+        maven { url = uri("https://kotlin.bintray.com/kotlinx") }
+        maven { url = uri("https://dl.bintray.com/icerockdev/moko") }
     }
     resolutionStrategy {
         eachPlugin {
@@ -15,7 +19,7 @@ pluginManagement {
 }
 rootProject.name = "Bonder"
 
-
+include(":mvvm")
 include(":androidApp")
 include(":shared")
 

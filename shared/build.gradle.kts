@@ -1,6 +1,4 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-
-plugins {
+/*plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("kotlin-android-extensions")
@@ -14,8 +12,8 @@ repositories {
     google()
     jcenter()
     mavenCentral()
-}
-kotlin {
+}*/
+/*kotlin {
     android()
     ios {
         binaries {
@@ -70,8 +68,8 @@ kotlin {
         }
         val iosTest by getting
     }
-}
-android {
+}*/
+/*android {
     compileSdkVersion(30)
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
@@ -85,6 +83,19 @@ android {
             isMinifyEnabled = false
         }
     }
+}*/
+/*tasks.toList().forEach { task ->
+    if(task !is KotlinNativeLink) return@forEach
+    val framework = task.binary
+    if(framework !is Framework) return@forEach
+    val linkTask = framework.linkTask
+            val syncTaskName = linkTask.name.replaceFirst("link", "sync")
+    val syncFramework = tasks.create(syncTaskName, Sync::class.java) {
+        group = "cocoapods"
+        from(framework.outputDirectory)
+        into(file("build/cocoapods/framework"))
+    }
+    syncFramework.dependsOn(linkTask)
 }
 val packForXcode by tasks.creating(Sync::class) {
     group = "build"
@@ -93,6 +104,61 @@ val packForXcode by tasks.creating(Sync::class) {
     val targetName = "ios" + if (sdkName.startsWith("iphoneos")) "Arm64" else "X64"
     val framework =
         kotlin.targets.getByName<KotlinNativeTarget>(targetName).binaries.getFramework(mode)
+    inputs.property("mode", mode)
+    dependsOn(framework.linkTask)
+    val targetDir = File(buildDir, "xcode-frameworks")
+    from({ framework.outputDirectory })
+    into(targetDir)
+}
+tasks.getByName("build").dependsOn(packForXcode)*/
+
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
+plugins {
+    plugin(Deps.Plugins.androidLibrary)
+    plugin(Deps.Plugins.kotlinMultiplatform)
+    plugin(Deps.Plugins.mobileMultiplatform)
+    plugin(Deps.Plugins.iosFramework)
+    plugin(Deps.Plugins.kotlinSerialization)
+}
+
+kotlin {
+    android()
+    ios {
+        binaries {
+            framework {
+                baseName = "shared"
+            }
+        }
+    }
+}
+
+dependencies {
+    commonMainImplementation(Deps.Libs.MultiPlatform.kotlinCoroutines)
+    commonMainImplementation(Deps.Libs.MultiPlatform.ktorCore)
+
+    androidMainImplementation(Deps.Libs.Android.lifecycle)
+    androidMainImplementation(Deps.Libs.Android.ktorAndroid)
+
+    iosMainImplementation(Deps.Libs.iOS.ktorIos)
+
+    commonMainApi(Deps.Libs.MultiPlatform.mokoResources.common)
+    commonMainApi(Deps.Libs.MultiPlatform.mokoMvvm)
+    commonMainApi(Deps.Libs.MultiPlatform.mokoParcelize)
+    commonMainApi(Deps.Libs.MultiPlatform.mokoGraphics)
+    commonMainApi(Deps.Libs.MultiPlatform.kotlinSerialization)
+}
+
+framework {
+    export(project(":mvvm"))
+    export(Deps.Libs.MultiPlatform.mokoResources)
+}
+val packForXcode by tasks.creating(Sync::class) {
+    group = "build"
+    val mode = System.getenv("CONFIGURATION") ?: "DEBUG"
+    val sdkName = System.getenv("SDK_NAME") ?: "iphonesimulator"
+    val targetName = "ios" + if (sdkName.startsWith("iphoneos")) "Arm64" else "X64"
+    val framework = kotlin.targets.getByName<KotlinNativeTarget>(targetName).binaries.getFramework(mode)
     inputs.property("mode", mode)
     dependsOn(framework.linkTask)
     val targetDir = File(buildDir, "xcode-frameworks")

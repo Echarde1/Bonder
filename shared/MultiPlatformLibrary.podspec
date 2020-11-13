@@ -26,7 +26,7 @@ Pod::Spec.new do |spec|
             :shell_path => '/bin/sh',
             #:output_files => ['$TARGET_BUILD_DIR/$PRODUCT_NAME.framework/$PRODUCT_NAME'],
             :script => <<-SCRIPT
-MPP_PROJECT_ROOT="$SRCROOT/../../mpp-library"
+MPP_PROJECT_ROOT="$SRCROOT/../../shared"
 
 MPP_OUTPUT_DIR="$MPP_PROJECT_ROOT/build/cocoapods/framework"
 MPP_OUTPUT_NAME="$MPP_OUTPUT_DIR/#{spec.name}.framework"

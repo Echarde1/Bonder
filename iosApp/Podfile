@@ -17,10 +17,12 @@ target 'iosApp' do
   target 'iosAppUITests' do
     # Pods for testing
   end
-  
+
+  pod 'AlamofireImage', '3.5.2'
+  pod 'SkyFloatingLabelTextField', '3.7.0'
+
   pod 'MultiPlatformLibrary', :path => '../shared'
 
   pod 'MultiPlatformLibraryMvvm', :git => 'https://github.com/icerockdev/moko-mvvm.git', :tag => 'release/0.8.0'
-
 
 end
