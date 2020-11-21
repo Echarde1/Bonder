@@ -53,7 +53,7 @@ class BondsListFragment : Fragment() {
 
     @Composable
     private fun BondsListScreen() {
-        val state: BondsListState by bondsViewModel.state.collectAsState()
+        val state: BondsListState by bondsViewModel.state.origin.collectAsState()
 
         BondsList(state)
     }

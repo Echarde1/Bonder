@@ -19,7 +19,6 @@ pluginManagement {
 }
 rootProject.name = "Bonder"
 
-include(":mvvm")
 include(":androidApp")
 include(":shared")
 

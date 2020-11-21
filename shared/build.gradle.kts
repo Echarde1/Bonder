@@ -142,17 +142,17 @@ dependencies {
 
     iosMainImplementation(Deps.Libs.iOS.ktorIos)
 
-    commonMainApi(Deps.Libs.MultiPlatform.mokoResources.common)
-    commonMainApi(Deps.Libs.MultiPlatform.mokoMvvm)
-    commonMainApi(Deps.Libs.MultiPlatform.mokoParcelize)
-    commonMainApi(Deps.Libs.MultiPlatform.mokoGraphics)
+//    commonMainApi(Deps.Libs.MultiPlatform.mokoResources.common)
+//    commonMainApi(Deps.Libs.MultiPlatform.mokoMvvm)
+//    commonMainApi(Deps.Libs.MultiPlatform.mokoParcelize)
+//    commonMainApi(Deps.Libs.MultiPlatform.mokoGraphics)
     commonMainApi(Deps.Libs.MultiPlatform.kotlinSerialization)
 }
 
-framework {
-    export(project(":mvvm"))
-    export(Deps.Libs.MultiPlatform.mokoResources)
-}
+//framework {
+//    export(project(":mvvm"))
+//    export(Deps.Libs.MultiPlatform.mokoResources)
+//}
 val packForXcode by tasks.creating(Sync::class) {
     group = "build"
     val mode = System.getenv("CONFIGURATION") ?: "DEBUG"

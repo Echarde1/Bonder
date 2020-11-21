@@ -8,5 +8,7 @@ import com.brocoding.bonder.shared.viewmodel.UIDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
-actual val Dispatchers.UI: CoroutineDispatcher
-    get() = UIDispatcher()
+/*actual val mainDispatcher: CoroutineDispatcher
+    get() = UIDispatcher()*/
+actual val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
+actual val ioDispatcher: CoroutineDispatcher = Dispatchers.Main
