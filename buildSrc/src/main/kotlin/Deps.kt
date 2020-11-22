@@ -79,7 +79,8 @@ object Deps {
 
         object MultiPlatform {
             const val kotlinCoroutines =
-                "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+//                "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+                "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9-native-mt"
 //            const val kotlinCoroutinesCommon = "org.jetbrains.kotlin:kotlin-stdlib:1.4.10"
             const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion"
 //            const val kotlinStdLibCommon = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.0"
