@@ -2,4 +2,4 @@ package com.brocoding.bonder.androidApp
 
 import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity(R.layout.activity_main)
+internal class MainActivity : AppCompatActivity(R.layout.activity_main)

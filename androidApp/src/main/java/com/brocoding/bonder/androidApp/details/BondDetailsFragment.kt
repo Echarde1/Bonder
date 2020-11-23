@@ -13,13 +13,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.brocoding.bonder.androidApp.getFragmentArgument
-import com.brocoding.bonder.shared.data.BonderApi
+import com.brocoding.bonder.shared.data.BonderRepository
 import com.brocoding.bonder.shared.feature.details.presentation.BondDetailsState
 import com.brocoding.bonder.shared.feature.details.presentation.BondDetailsViewModel
 import com.brocoding.bonder.shared.service_locator.ServiceLocator
 import kotlinx.coroutines.flow.collect
 
-class BondDetailsFragment : Fragment() {
+internal class BondDetailsFragment : Fragment() {
 
     companion object {
 
@@ -63,8 +63,8 @@ class BondDetailsFragment : Fragment() {
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass
-                .getConstructor(String::class.java, BonderApi::class.java)
-                .newInstance(secId, ServiceLocator.bonderApi)
+                .getConstructor(String::class.java, BonderRepository::class.java)
+                .newInstance(secId, ServiceLocator.bonderRepository)
         }
     }
 }

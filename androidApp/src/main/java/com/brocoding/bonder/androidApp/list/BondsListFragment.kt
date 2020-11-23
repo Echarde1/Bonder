@@ -1,7 +1,6 @@
 package com.brocoding.bonder.androidApp.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumnFor
-import androidx.compose.foundation.lazy.LazyColumnForIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Snackbar
@@ -35,7 +33,7 @@ import com.brocoding.bonder.shared.Greeting
 import com.brocoding.bonder.shared.feature.list.presentation.BondsListState
 import com.brocoding.bonder.shared.feature.list.presentation.BondsListViewModel
 
-class BondsListFragment : Fragment() {
+internal class BondsListFragment : Fragment() {
 
     private val bondsViewModel: BondsListViewModel by viewModels()
 

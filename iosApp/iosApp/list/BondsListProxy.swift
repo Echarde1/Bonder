@@ -3,7 +3,7 @@ import shared
 class BonsListProxy: ObservableObject {
 
     init() {
-        let viewModel = BondsListViewModel(bonderApi: ServiceLocator().bonderApi)
+        let viewModel = BondsListViewModel(bonderRepository: ServiceLocator().bonderRepository)
         proxyState = viewModel.state.origin.value as! BondsListState
 
         viewModel.state.watch { state in

@@ -1,4 +1,4 @@
-package com.brocoding.bonder.shared.base
+package com.brocoding.bonder.shared
 
 sealed class Response<out T> {
     data class Success<out T>(val data: T) : Response<T>()
