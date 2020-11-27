@@ -11,7 +11,7 @@ sealed class BondsListState {
     ) : BondsListState()
 
     class Success(
-        val result: List<ListBond>
+        val result: List<BondListModel>
     ) : BondsListState()
 
 }

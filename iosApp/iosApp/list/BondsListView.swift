@@ -16,19 +16,19 @@ struct BondsListView: View {
         case is BondsListState.Loading:
             Text("Loooooooading")
         case is BondsListState.Success:
-            let result: [ListBond] = (state as! BondsListState.Success).result
-            NavigationView {
-                List(result, id: \.secid) { bond in
-                    let model = BondsListRow.BondListRowModel(
-                            secId: bond.secid,
-                            bondName: bond.sec_name,
-                            maturityDate: bond.maturity_date,
-                            couponPercent: bond.coupon_percent,
-                            prevPrice: bond.prev_price
-                    )
-                    BondsListRow(model: model)
+            let result: [BondListModel] = (state as! BondsListState.Success).result
+            NavigationView { // Да-да. Костыль, чтоб не было стрелочки
+                List(result, id: \.secId) { bond in
+                    ZStack { // Да-да. Костыль, чтоб не было стрелочки
+                        BondsListRow(model: bond)
+                        NavigationLink(destination: BondDetailsView(details: bond.description(), proxy: BondsDetailsProxy(secId: bond.secId))) { // Да-да. Костыль, чтоб не было стрелочки
+                            EmptyView() // Да-да. Костыль, чтоб не было стрелочки
+                        } // Да-да. Костыль, чтоб не было стрелочки
+                    } // Да-да. Костыль, чтоб не было стрелочки
                 }
-            }
+                        .navigationBarHidden(true) // Чтоб не было отступа от верхнего края
+//                        .edgesIgnoringSafeArea([.top, .bottom]) Еще вот этим можно попробовать воспользоваться при проблемах
+            } // Да-да. Костыль, чтоб не было стрелочки
         case is BondsListState.Error:
             Text("Ошибочка")
         default:
@@ -39,56 +39,40 @@ struct BondsListView: View {
 
 struct BondsListRow: View {
 
-    var model: BondListRowModel
+    var model: BondListModel
 
     var body: some View {
         HStack {
-            Text(String(model.bondName.first!))
-                    .background(Circle()
-                            .foregroundColor(Color(BondColor.getRandomColor()))
-                            .frame(width: 32, height: 32)
-                    )
+            BonderText(text: model.firstLetter)
+                    .background(Circle().frame(width: 32, height: 32).foregroundColor(Color(BondImageColor.getRandomColor())))
+                    .padding(.trailing, 14)
             VStack {
-                BonderText(text: model.bondName).lineLimit(1)
-                Text(model.maturityDate)
+                HStack {
+                    BonderText(text: model.bondName, textColor: TextColor.black)
+                            .lineLimit(1)
+                    Spacer()
+                    BonderText(text: "\(model.couponPercent) %", size: 14, textColor: TextColor.black)
+                }
+                HStack {
+                    BonderText(text: model.maturityDate, size: 9)
+                    Spacer()
+                    BonderText(text: "\(model.prevPrice * 10) ₽", size: 9)
+                }.padding(.top, 0.5)
             }
-            VStack {
-                Text("\(model.couponPercent) %")
-                Text("\(model.prevPrice * 10) ₽")
-            }
-        }.frame(maxWidth: .infinity)
-        Spacer()
-        NavigationLink(
-                destination: BondDetailsView(details: model.description(),
-                        proxy: BondsDetailsProxy(secId: model.secId))
-        ) {
-            EmptyView()
         }
     }
 
-    struct BondListRowModel {
-
-        let secId: String
-        let bondName: String
-        let maturityDate: String
-        let couponPercent: Double
-        let prevPrice: Double
-
-        func description() -> String {
-            "secId: \(secId)\nbondName:\(bondName)\nmaturityDate:\(maturityDate)\ncouponPercent:\(couponPercent)\nprevPrice:\(prevPrice)"
-        }
-    }
-
-    enum BondColor: CaseIterable {
+    enum BondImageColor: CaseIterable {
         case pink
         case yellow
         case purple
 
         static func getRandomColor() -> UIColor! {
-            let lastIndex = BondColor.allCases.endIndex
+            let colors = BondImageColor.allCases
+            let lastIndex = BondImageColor.allCases.endIndex
             let idx = Int.random(in: 0..<lastIndex)
 
-            return BondColor.allCases[idx].color
+            return colors[idx].color
         }
 
         private var color: UIColor! {
@@ -104,8 +88,10 @@ struct BondsListRow: View {
     }
 }
 
-struct BondRowView_Previews: PreviewProvider {
+struct BondListView_Previews: PreviewProvider {
     static var previews: some View {
-        BondsListRow(model: BondsListRow.BondListRowModel(secId: "Sec123123", bondName: "Республика Беларусь выпуск 1", maturityDate: "22-22-2222", couponPercent: 105.43, prevPrice: 111.113))
+        Group {
+            BondsListView(proxy: BonsListProxy())
+        }
     }
 }

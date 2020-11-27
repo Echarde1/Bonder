@@ -13,8 +13,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Snackbar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -80,7 +78,7 @@ internal class BondsListFragment : Fragment() {
                     Row(
                         modifier = Modifier
                             .fillMaxSize()
-                            .clickable(onClick = { goToDetails(bond.secid) }),
+                            .clickable(onClick = { goToDetails(bond.secId) }),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Box(
@@ -91,7 +89,7 @@ internal class BondsListFragment : Fragment() {
                                 .background(Color.Red)
                         )
 
-                        Text("${greet()} ${bond.secid}")
+                        Text("${greet()} ${bond.secId}")
                     }
                 }
             }

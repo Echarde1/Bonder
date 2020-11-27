@@ -21,5 +21,3 @@ rootProject.name = "Bonder"
 
 include(":androidApp")
 include(":shared")
-
-//enableFeaturePreview("GRADLE_METADATA")
