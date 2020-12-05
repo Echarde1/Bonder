@@ -18,6 +18,7 @@ import com.brocoding.bonder.shared.feature.details.presentation.BondDetailsState
 import com.brocoding.bonder.shared.feature.details.presentation.BondDetailsViewModel
 import com.brocoding.bonder.shared.feature.list.BondListEntity
 import com.brocoding.bonder.shared.service_locator.ServiceLocator
+import kotlinx.coroutines.flow.collect
 
 internal class BondDetailsFragment : Fragment() {
 

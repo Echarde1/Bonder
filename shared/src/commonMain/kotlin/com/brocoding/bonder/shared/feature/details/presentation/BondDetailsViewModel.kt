@@ -2,6 +2,7 @@ package com.brocoding.bonder.shared.feature.details.presentation
 
 import com.brocoding.bonder.shared.CStateFlow
 import com.brocoding.bonder.shared.Response
+import com.brocoding.bonder.shared.asCommonFlow
 import com.brocoding.bonder.shared.data.BonderRepository
 import com.brocoding.bonder.shared.data.dto.DetailsBondDTO
 import com.brocoding.bonder.shared.feature.details.BondDetailsEntity
