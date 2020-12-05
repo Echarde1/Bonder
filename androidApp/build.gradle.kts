@@ -3,6 +3,7 @@ plugins {
     kotlin("android")
     id("kotlin-android-extensions")
 //    id("dev.icerock.mobile.multiplatform-resources")
+    id("androidx.navigation.safeargs.kotlin")
 }
 group = "com.brocoding.bonder"
 version = "1.0-SNAPSHOT"

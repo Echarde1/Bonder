@@ -8,10 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		56DC4AC9D2F6C95F18886721 /* Pods_iosAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DFBE900B4110EE0A34EC98B /* Pods_iosAppTests.framework */; };
+		5BB81192C9D0D698F8F126C7 /* ListSeparatorStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB815DF037253E88C091467 /* ListSeparatorStyle.swift */; };
 		5BB81204A3D245D951ADFF4F /* BondsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB817373DA9A5347E168152 /* BondsListView.swift */; };
 		5BB814382D4A8C0E2166433E /* BondsListProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB81132F06B93CC7D532BC4 /* BondsListProxy.swift */; };
 		5BB81490DEAF554F204E28F6 /* TextColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8179D9989E374292D0DA4 /* TextColor.swift */; };
-		5BB815CB6DB3ED30D9E4E13F /* BondDetailsVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB81950BDA9700457BF9A0D /* BondDetailsVIew.swift */; };
+		5BB815CB6DB3ED30D9E4E13F /* BondDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB81950BDA9700457BF9A0D /* BondDetailsView.swift */; };
 		5BB8170556B8E1263A3EA8DE /* BonderViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB81A8F7AD3FE31BBBEBCD4 /* BonderViews.swift */; };
 		5BB8186C41BF13907DA0EB8A /* BondDetailsProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8131E2CDE169A5C810CBA /* BondDetailsProxy.swift */; };
 		7555FF7F242A565900829871 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF7E242A565900829871 /* AppDelegate.swift */; };
@@ -65,9 +66,10 @@
 		2ECC5E4628BFFBAA509A27EC /* Pods-iosApp-iosAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp-iosAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-iosApp-iosAppUITests/Pods-iosApp-iosAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		5BB81132F06B93CC7D532BC4 /* BondsListProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BondsListProxy.swift; sourceTree = "<group>"; };
 		5BB8131E2CDE169A5C810CBA /* BondDetailsProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BondDetailsProxy.swift; sourceTree = "<group>"; };
+		5BB815DF037253E88C091467 /* ListSeparatorStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListSeparatorStyle.swift; sourceTree = "<group>"; };
 		5BB817373DA9A5347E168152 /* BondsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BondsListView.swift; sourceTree = "<group>"; };
 		5BB8179D9989E374292D0DA4 /* TextColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextColor.swift; sourceTree = "<group>"; };
-		5BB81950BDA9700457BF9A0D /* BondDetailsVIew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BondDetailsVIew.swift; sourceTree = "<group>"; };
+		5BB81950BDA9700457BF9A0D /* BondDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BondDetailsView.swift; sourceTree = "<group>"; };
 		5BB81A8F7AD3FE31BBBEBCD4 /* BonderViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BonderViews.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF7E242A565900829871 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -140,7 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				5BB8131E2CDE169A5C810CBA /* BondDetailsProxy.swift */,
-				5BB81950BDA9700457BF9A0D /* BondDetailsVIew.swift */,
+				5BB81950BDA9700457BF9A0D /* BondDetailsView.swift */,
 			);
 			path = details;
 			sourceTree = "<group>";
@@ -150,6 +152,7 @@
 			children = (
 				5BB81A8F7AD3FE31BBBEBCD4 /* BonderViews.swift */,
 				5BB8179D9989E374292D0DA4 /* TextColor.swift */,
+				5BB815DF037253E88C091467 /* ListSeparatorStyle.swift */,
 			);
 			path = base;
 			sourceTree = "<group>";
@@ -475,9 +478,10 @@
 				5BB814382D4A8C0E2166433E /* BondsListProxy.swift in Sources */,
 				5BB81204A3D245D951ADFF4F /* BondsListView.swift in Sources */,
 				5BB8186C41BF13907DA0EB8A /* BondDetailsProxy.swift in Sources */,
-				5BB815CB6DB3ED30D9E4E13F /* BondDetailsVIew.swift in Sources */,
+				5BB815CB6DB3ED30D9E4E13F /* BondDetailsView.swift in Sources */,
 				5BB8170556B8E1263A3EA8DE /* BonderViews.swift in Sources */,
 				5BB81490DEAF554F204E28F6 /* TextColor.swift in Sources */,
+				5BB81192C9D0D698F8F126C7 /* ListSeparatorStyle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

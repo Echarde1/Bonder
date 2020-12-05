@@ -15,9 +15,5 @@
     <fragment
         android:id="@+id/bondDetailsFragment"
         android:name="com.brocoding.bonder.androidApp.details.BondDetailsFragment"
-        android:label="BondDetails">
-        <argument
-            android:name="secId"
-            app:argType="string" />
-    </fragment>
+        android:label="BondDetails" />
 </navigation>

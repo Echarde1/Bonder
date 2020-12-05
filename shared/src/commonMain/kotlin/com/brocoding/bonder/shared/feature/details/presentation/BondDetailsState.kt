@@ -1,8 +1,6 @@
 package com.brocoding.bonder.shared.feature.details.presentation
 
-import com.brocoding.bonder.shared.data.dto.DetailsBond
-import com.brocoding.bonder.shared.data.dto.ListBond
-import com.brocoding.bonder.shared.feature.list.presentation.BondsListState
+import com.brocoding.bonder.shared.feature.details.BondDetailsEntity
 
 sealed class BondDetailsState {
 
@@ -13,7 +11,7 @@ sealed class BondDetailsState {
     ) : BondDetailsState()
 
     class Success(
-        val result: DetailsBond
+        val result: BondDetailsEntity
     ) : BondDetailsState()
 
 }

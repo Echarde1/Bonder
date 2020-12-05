@@ -16,20 +16,20 @@ import com.brocoding.bonder.androidApp.getFragmentArgument
 import com.brocoding.bonder.shared.data.BonderRepository
 import com.brocoding.bonder.shared.feature.details.presentation.BondDetailsState
 import com.brocoding.bonder.shared.feature.details.presentation.BondDetailsViewModel
+import com.brocoding.bonder.shared.feature.list.BondListEntity
 import com.brocoding.bonder.shared.service_locator.ServiceLocator
-import kotlinx.coroutines.flow.collect
 
 internal class BondDetailsFragment : Fragment() {
 
     companion object {
 
-        const val ARG_SEC_ID = "ARG_SEC_ID"
+        const val ARG_BOND_LIST_ENTITY = "ARG_BOND_LIST_ENTITY"
 
     }
 
     private val detailsViewModel: BondDetailsViewModel by viewModels(
         factoryProducer = {
-            BondDetailViewModelFactory(getFragmentArgument(ARG_SEC_ID))
+            BondDetailViewModelFactory(getFragmentArgument(ARG_BOND_LIST_ENTITY))
         }
     )
 
@@ -40,7 +40,7 @@ internal class BondDetailsFragment : Fragment() {
     ): View? {
         return ComposeView(requireContext()).apply {
             setContent {
-                Text("Дарова ептыть ${getFragmentArgument<String>(ARG_SEC_ID)}")
+                Text("Дарова ептыть ${getFragmentArgument<BondListEntity>(ARG_BOND_LIST_ENTITY)}")
             }
         }
     }
@@ -48,7 +48,7 @@ internal class BondDetailsFragment : Fragment() {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            detailsViewModel.state.collect {
+            detailsViewModel.state.origin.collect {
                 when (it) {
                     BondDetailsState.Loading -> Log.i("mytag", "LOOOOOADDDDDING")
                     is BondDetailsState.Success -> Log.i("mytag", "result: ${it.result}")
@@ -59,12 +59,12 @@ internal class BondDetailsFragment : Fragment() {
     }
 
     private class BondDetailViewModelFactory(
-        private val secId: String
+        private val bondListEntity: BondListEntity
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass
-                .getConstructor(String::class.java, BonderRepository::class.java)
-                .newInstance(secId, ServiceLocator.bonderRepository)
+                .getConstructor(BondListEntity::class.java, BonderRepository::class.java)
+                .newInstance(bondListEntity, ServiceLocator.bonderRepository)
         }
     }
 }

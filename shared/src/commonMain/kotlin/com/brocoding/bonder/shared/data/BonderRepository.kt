@@ -1,8 +1,8 @@
 package com.brocoding.bonder.shared.data
 
 import com.brocoding.bonder.shared.Response
-import com.brocoding.bonder.shared.data.dto.DetailsBond
-import com.brocoding.bonder.shared.data.dto.ListBond
+import com.brocoding.bonder.shared.data.dto.DetailsBondDTO
+import com.brocoding.bonder.shared.data.dto.ListBondDTO
 import io.ktor.client.*
 import io.ktor.client.request.*
 import kotlinx.serialization.builtins.ListSerializer
@@ -18,19 +18,19 @@ class BonderRepository(
 
     }
 
-    suspend fun getBondsList(): Response<List<ListBond>> = tryCatch {
+    suspend fun getBondsList(): Response<List<ListBondDTO>> = tryCatch {
         val url = "$BASE_URL/bonds"
         val json = httpClient.get<String>(url)
-        Json.decodeFromString(ListSerializer(ListBond.serializer()), json)
+        Json.decodeFromString(ListSerializer(ListBondDTO.serializer()), json)
     }
 
-    suspend fun getBondDetails(secId: String): Response<DetailsBond> = tryCatch {
+    suspend fun getBondDetails(secId: String): Response<DetailsBondDTO> = tryCatch {
         val url = "$BASE_URL/bonds/details"
         val json = httpClient.get<String>(
             url, { parameter("secid", secId) }
         )
 
-        Json.decodeFromString(DetailsBond.serializer(), json)
+        Json.decodeFromString(DetailsBondDTO.serializer(), json)
     }
 
     private suspend fun <T> tryCatch(func: suspend () -> T): Response<T> =

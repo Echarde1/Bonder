@@ -18,4 +18,5 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.0")
     implementation("org.jetbrains.kotlin:kotlin-serialization:1.4.0")
     implementation("dev.icerock:mobile-multiplatform:0.7.0")
+    implementation("androidx.navigation:navigation-safe-args-gradle-plugin:2.3.1")
 }

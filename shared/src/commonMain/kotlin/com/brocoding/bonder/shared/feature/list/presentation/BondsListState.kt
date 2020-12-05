@@ -1,6 +1,7 @@
 package com.brocoding.bonder.shared.feature.list.presentation
 
-import com.brocoding.bonder.shared.data.dto.ListBond
+import com.brocoding.bonder.shared.data.dto.ListBondDTO
+import com.brocoding.bonder.shared.feature.list.BondListEntity
 
 sealed class BondsListState {
 
@@ -11,13 +12,13 @@ sealed class BondsListState {
     ) : BondsListState()
 
     class Success(
-        val result: List<BondListModel>
+        val result: List<BondListEntity>
     ) : BondsListState()
 
 }
 
 data class SillyState(
-    val result: List<ListBond> = emptyList(),
+    val result: List<ListBondDTO> = emptyList(),
     val err: Throwable? = null,
     val loading: Boolean = false
 )

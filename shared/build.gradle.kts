@@ -120,17 +120,31 @@ plugins {
     plugin(Deps.Plugins.mobileMultiplatform)
     plugin(Deps.Plugins.iosFramework)
     plugin(Deps.Plugins.kotlinSerialization)
+    plugin(Deps.Plugins.kotlinAndroidParcelize)
+    plugin(Deps.Plugins.kotlinCocoaPods) // Если нужены зависимости из CocoaPods https://youtrack.jetbrains.com/issue/KT-41743
 }
 
 kotlin {
     android()
-    ios {
+    //select iOS target platform depending on the Xcode environment variables
+    val iOSTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget =
+        if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true) ::iosArm64
+        else ::iosX64
+
+    iOSTarget("ios") {
         binaries {
             framework {
                 baseName = "shared"
             }
         }
     }
+    /*ios {
+        binaries {
+            framework {
+                baseName = "shared"
+            }
+        }
+    }*/
 }
 
 dependencies {
@@ -144,16 +158,12 @@ dependencies {
 
 //    commonMainApi(Deps.Libs.MultiPlatform.mokoResources.common)
 //    commonMainApi(Deps.Libs.MultiPlatform.mokoMvvm)
-//    commonMainApi(Deps.Libs.MultiPlatform.mokoParcelize)
+    commonMainApi(Deps.Libs.MultiPlatform.mokoParcelize)
 //    commonMainApi(Deps.Libs.MultiPlatform.mokoGraphics)
     commonMainApi(Deps.Libs.MultiPlatform.kotlinSerialization)
 }
 
-//framework {
-//    export(project(":mvvm"))
-//    export(Deps.Libs.MultiPlatform.mokoResources)
-//}
-val packForXcode by tasks.creating(Sync::class) {
+/*val packForXcode by tasks.creating(Sync::class) {
     group = "build"
     val mode = System.getenv("CONFIGURATION") ?: "DEBUG"
     val sdkName = System.getenv("SDK_NAME") ?: "iphonesimulator"
@@ -164,5 +174,58 @@ val packForXcode by tasks.creating(Sync::class) {
     val targetDir = File(buildDir, "xcode-frameworks")
     from({ framework.outputDirectory })
     into(targetDir)
+}*/
+val xcodeMode = System.getenv("CONFIGURATION") ?: "DEBUG"
+val framework = kotlin.targets.getByName<KotlinNativeTarget>("ios").binaries.getFramework(xcodeMode)
+val frameworkFile = framework.outputFile
+
+val xcodeFrameworksDirectory: File? = run {
+    val xcodeTargetBuildDir = System.getenv("TARGET_BUILD_DIR") ?: return@run null
+    val xcodeFrameworksFolderPath = System.getenv("FRAMEWORKS_FOLDER_PATH") ?: return@run null
+    file("$xcodeTargetBuildDir/$xcodeFrameworksFolderPath")
 }
+
+val frameworksDirectory = File(buildDir, "xcode-frameworks")
+
+val packForXcode by tasks.creating(Sync::class) {
+    group = "build"
+    inputs.property("mode", xcodeMode)
+    dependsOn(framework.linkTask)
+    from({ framework.outputDirectory })
+    into(frameworksDirectory)
+}
+
+val embedAndSignForXcode  by tasks.creating(Sync::class) {
+    group = "build"
+    dependsOn(packForXcode)
+
+    if (xcodeFrameworksDirectory == null) {
+        enabled = false
+        return@creating
+    }
+
+    destinationDir = xcodeFrameworksDirectory.resolve(frameworkFile.name)
+    from(frameworksDirectory.resolve(frameworkFile.name))
+
+    // Sign the framework.
+    val codeSignIdentity = System.getenv("EXPANDED_CODE_SIGN_IDENTITY")
+    inputs.property("codeSignIdentity", codeSignIdentity)
+
+    doLast {
+        if (codeSignIdentity.isNullOrEmpty()) {
+            return@doLast
+        }
+
+        project.exec {
+            commandLine(
+                "codesign",
+                "--force",
+                "--sign", codeSignIdentity,
+                "--",
+                xcodeFrameworksDirectory.resolve(frameworkFile.name).resolve(frameworkFile.nameWithoutExtension)
+            )
+        }
+    }
+}
+
 tasks.getByName("build").dependsOn(packForXcode)

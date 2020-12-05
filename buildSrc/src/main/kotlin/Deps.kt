@@ -1,9 +1,9 @@
+import Deps.Libs.Versions.androidAppCompatVersion
+import Deps.Libs.Versions.androidCoreTestingVersion
+import Deps.Libs.Versions.androidLifecycleVersion
 import Deps.Libs.Versions.coroutinesVersion
 import Deps.Libs.Versions.ktorVersion
-import Deps.Libs.Versions.androidAppCompatVersion
 import Deps.Libs.Versions.materialDesignVersion
-import Deps.Libs.Versions.androidLifecycleVersion
-import Deps.Libs.Versions.androidCoreTestingVersion
 import Deps.Libs.Versions.mokoGraphicsVersion
 import Deps.Libs.Versions.mokoMvvmVersion
 import Deps.Libs.Versions.mokoParcelizeVersion
@@ -30,7 +30,9 @@ object Deps {
         val kotlinAndroid = GradlePlugin(id = "kotlin-android")
         val kotlinAndroidExtensions = GradlePlugin(id = "kotlin-android-extensions")
 //        val kotlinSerialization = GradlePlugin(id = "kotlin-serialization")
+        val kotlinCocoaPods = GradlePlugin(id = "org.jetbrains.kotlin.native.cocoapods")
         val kotlinSerialization = GradlePlugin(id = "org.jetbrains.kotlin.plugin.serialization")
+        val kotlinAndroidParcelize = GradlePlugin(id = "org.jetbrains.kotlin.android.extensions")
         val mavenPublish = GradlePlugin(id = "org.gradle.maven-publish")
 
         val mobileMultiplatform = GradlePlugin(id = "dev.icerock.mobile.multiplatform")

@@ -3,7 +3,8 @@ package com.brocoding.bonder.shared.feature.list.presentation
 import com.brocoding.bonder.shared.CStateFlow
 import com.brocoding.bonder.shared.Response
 import com.brocoding.bonder.shared.data.BonderRepository
-import com.brocoding.bonder.shared.data.dto.ListBond
+import com.brocoding.bonder.shared.data.dto.ListBondDTO
+import com.brocoding.bonder.shared.feature.list.BondListEntity
 import com.brocoding.bonder.shared.service_locator.ServiceLocator
 import com.brocoding.bonder.shared.viewmodel.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,8 +30,8 @@ class BondsListViewModel(
         }
     }
 
-    private fun mapToBondListModel(from: List<ListBond>): List<BondListModel> = from.map {
-        BondListModel(
+    private fun mapToBondListModel(from: List<ListBondDTO>): List<BondListEntity> = from.map {
+        BondListEntity(
             firstLetter = run {
                 val regexpPattern = "([а-яА-Я])|([a-zA-Z])".toRegex()
                 val matchResult = regexpPattern.find(it.sec_name)
@@ -41,7 +42,12 @@ class BondsListViewModel(
             bondName = it.sec_name,
             couponPercent = it.coupon_percent,
             prevPrice = it.prev_price,
-            maturityDate = it.maturity_date
+            maturityDate = it.maturity_date,
+            offerDate = it.offer_date,
+            accumulatedCouponIncome = it.accumulated_coupon_income,
+            duration = it.duration,
+            listLevel = it.list_level,
+            couponValue = it.coupon_value,
         )
     }
 }

@@ -1,8 +1,9 @@
 import shared
 import SwiftUI
 
-class BonsListProxy: ObservableObject {
+class BondsListProxy: ObservableObject {
 
+    // Тест успешного ответа с данными
     /*init() {
         proxyState = BondsListState.Success(
                 result: [
@@ -58,6 +59,7 @@ class BonsListProxy: ObservableObject {
         )
     }*/
 
+    // Боевой код
     init() {
         let viewModel = BondsListViewModel(bonderRepository: ServiceLocator().bonderRepository)
         proxyState = viewModel.state.origin.value as! BondsListState

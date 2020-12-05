@@ -3,7 +3,7 @@ package com.brocoding.bonder.shared.data.dto
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ListBond(
+data class ListBondDTO(
     val secid: String,
     val sec_name: String,
     val prev_price: Double,

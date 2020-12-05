@@ -3,4 +3,14 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <color name="color_DDDDDD">#DDDDDD</color>
+    <!-- Bond image color -->
+    <color name="color_FFB0B0">#FFB0B0</color>
+    <color name="color_FFF0D3">#FFF0D3</color>
+    <color name="color_BBBBFF">#BBBBFF</color>
+    <!-- Bond text color -->
+    <color name="color_84898C">#84898C</color>
+    <color name="color_333333">#333333</color>
+    <color name="color_5222D0">#5222D0</color>
 </resources>

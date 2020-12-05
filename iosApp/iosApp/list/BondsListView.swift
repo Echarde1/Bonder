@@ -7,30 +7,35 @@ func greet() -> String {
 
 struct BondsListView: View {
 
-    @ObservedObject var proxy: BonsListProxy
+    @ObservedObject var proxy: BondsListProxy
 
     var body: some View {
         let state = self.proxy.proxyState
 
         switch state {
         case is BondsListState.Loading:
-            Text("Loooooooading")
+            BondsListLoadingView()
         case is BondsListState.Success:
-            let result: [BondListModel] = (state as! BondsListState.Success).result
-            NavigationView { // Да-да. Костыль, чтоб не было стрелочки
-                List(result, id: \.secId) { bond in
-                    ZStack { // Да-да. Костыль, чтоб не было стрелочки
-                        BondsListRow(model: bond)
-                        NavigationLink(destination: BondDetailsView(details: bond.description(), proxy: BondsDetailsProxy(secId: bond.secId))) { // Да-да. Костыль, чтоб не было стрелочки
-                            EmptyView() // Да-да. Костыль, чтоб не было стрелочки
+            let result: [BondListEntity] = (state as! BondsListState.Success).result
+            if result.isEmpty {
+                BonderText(text: "По вашему запросу ничего не найдено")
+            } else {
+                NavigationView { // Да-да. Костыль, чтоб не было стрелочки
+                    List(result, id: \.secId) { bond in
+                        ZStack { // Да-да. Костыль, чтоб не было стрелочки
+                            BondsListRow(model: bond)
+                            NavigationLink(destination: getDestination(bondListEntity: bond)) { // Да-да. Костыль, чтоб не было стрелочки
+                                EmptyView() // Да-да. Костыль, чтоб не было стрелочки
+                            } // Да-да. Костыль, чтоб не было стрелочки
                         } // Да-да. Костыль, чтоб не было стрелочки
-                    } // Да-да. Костыль, чтоб не было стрелочки
-                }
-                        .navigationBarHidden(true) // Чтоб не было отступа от верхнего края
+                    }
+                            .listSeparatorStyle(style: .none)
+                            .navigationBarHidden(true) // Чтоб не было отступа от верхнего края
 //                        .edgesIgnoringSafeArea([.top, .bottom]) Еще вот этим можно попробовать воспользоваться при проблемах
-            } // Да-да. Костыль, чтоб не было стрелочки
+                } // Да-да. Костыль, чтоб не было стрелочки
+            }
         case is BondsListState.Error:
-            Text("Ошибочка")
+            ErrorView()
         default:
             Text("А зочем дефольт?")
         }
@@ -39,13 +44,15 @@ struct BondsListView: View {
 
 struct BondsListRow: View {
 
-    var model: BondListModel
+    var model: BondListEntity
 
     var body: some View {
         HStack {
-            BonderText(text: model.firstLetter)
-                    .background(Circle().frame(width: 32, height: 32).foregroundColor(Color(BondImageColor.getRandomColor())))
-                    .padding(.trailing, 14)
+//            BonderText(text: model.firstLetter)
+//                    .background(Circle().frame(width: 32, height: 32).foregroundColor(Color(BondImageColor.getRandomColor())))
+//                    .padding(.trailing, 14)
+            Circle().frame(width: 32, height: 32).foregroundColor(Color(BondImageColor.getRandomColor()))
+//                    .padding(.trailing, 14)
             VStack {
                 HStack {
                     BonderText(text: model.bondName, textColor: TextColor.black)
@@ -88,10 +95,44 @@ struct BondsListRow: View {
     }
 }
 
+struct BondsListLoadingView: View {
+
+    var body: some View {
+        List((1...20), id: \.self) { _ in
+            HStack {
+                Circle().frame(width: 32, height: 32).foregroundColor(Color(viewStubColor))
+                        .padding(.trailing, 14)
+                VStack {
+                    HStack {
+                        Spacer().frame(width: 200, height: 12).background(Color(viewStubColor))
+                        Spacer()
+                        Spacer().frame(width: 40, height: 12).background(Color(viewStubColor))
+                    }
+                    HStack {
+                        Spacer().frame(width: 100, height: 12).background(Color(viewStubColor))
+                        Spacer()
+                        Spacer().frame(width: 26, height: 12).background(Color(viewStubColor))
+                    }.padding(.top, 0.5)
+                }
+            }
+        } // .listSeparatorStyle(style: .none) не работает
+    }
+
+    private let viewStubColor: UIColor! = UIColor(named: "DDDDDD")
+
+}
+
 struct BondListView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            BondsListView(proxy: BonsListProxy())
+            BondsListView(proxy: BondsListProxy())
         }
     }
+}
+
+private func getDestination(bondListEntity: BondListEntity) -> BondDetailsView {
+    BondDetailsView(
+            details: bondListEntity.description(),
+            proxy: BondsDetailsProxy(bondListEntity: bondListEntity)
+    )
 }
