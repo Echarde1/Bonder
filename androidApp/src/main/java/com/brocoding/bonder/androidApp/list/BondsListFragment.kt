@@ -11,25 +11,27 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Snackbar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import androidx.ui.tooling.preview.Preview
 import com.brocoding.bonder.androidApp.R
+import com.brocoding.bonder.androidApp.base.BonderError
+import com.brocoding.bonder.androidApp.base.BonderText
 import com.brocoding.bonder.androidApp.details.BondDetailsFragment.Companion.ARG_BOND_LIST_ENTITY
 import com.brocoding.bonder.androidApp.getColor
-import com.brocoding.bonder.shared.Greeting
 import com.brocoding.bonder.shared.feature.list.BondListEntity
 import com.brocoding.bonder.shared.feature.list.presentation.BondsListState
 import com.brocoding.bonder.shared.feature.list.presentation.BondsListViewModel
@@ -53,8 +55,7 @@ internal class BondsListFragment : Fragment() {
 
     @Composable
     private fun BondsListScreen() {
-//        val state: BondsListState by bondsViewModel.state.origin.collectAsState()
-        val state = BondsListState.Loading
+        val state: BondsListState by bondsViewModel.state.origin.collectAsState()
 
         BondsList(state)
     }
@@ -62,65 +63,9 @@ internal class BondsListFragment : Fragment() {
     @Composable
     private fun BondsList(state: BondsListState) {
         when (state) {
-            BondsListState.Loading -> {
-                /*Column(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    CircularProgressIndicator(
-                        Modifier
-                            .size(150F.dp)
-                    )
-                }*/
-                LazyColumnFor(
-                    modifier = Modifier.padding(16.dp),
-                    items = IntRange(1, 20).toList()
-                ) { idx ->
-                    Row(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .preferredSize(32.dp)
-//                                .padding(16.dp)
-                                .clip(CircleShape)
-                                .background(getColor(R.color.color_DDDDDD))
-                        )
-                        Text("${greet()} $idx")
-                    }
-                }
-            }
-            is BondsListState.Success -> {
-                LazyColumnFor(
-                    modifier = Modifier.fillMaxSize(),
-                    items = state.result
-                ) { bond ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .clickable(onClick = { goToDetails(bond) }),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .preferredSize(100.dp)
-                                .padding(16.dp)
-                                .clip(CircleShape)
-                                .background(getRandomBondImageColor())
-                        )
-
-                        Text("${greet()} ${bond.secId}")
-                    }
-                }
-            }
-            is BondsListState.Error -> {
-                Snackbar(
-                    text = { Text(text = "Error епта") }
-                )
-            }
+            BondsListState.Loading -> BondsListLoadingView()
+            is BondsListState.Success -> BondsListSuccessView(state.result)
+            is BondsListState.Error -> BonderError()
         }
     }
 
@@ -148,15 +93,93 @@ internal class BondsListFragment : Fragment() {
         })
     }
 
-    private fun greet(): String {
-        return Greeting().greeting()
+    @Composable
+    private fun BondsListSuccessView(result: List<BondListEntity>) {
+        LazyColumnFor(
+            modifier = Modifier.fillMaxSize(),
+            items = result
+        ) { bond ->
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+                    .clickable(onClick = { goToDetails(bond) }),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .preferredSize(32.dp)
+                        .clip(CircleShape)
+                        .background(getRandomBondImageColor())
+                )
+                Spacer(Modifier.preferredSize(16.dp))
+                Column {
+                    Row(
+                        modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        BonderText(text = bond.bondName, textColor = getColor(R.color.color_333333))
+                        BonderText(text = "${bond.couponPercent} %", textColor = getColor(R.color.color_333333))
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth().fillMaxHeight().padding(top = 8.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        BonderText(bond.maturityDate, size = 8.sp)
+                        BonderText(text = "${bond.prevPrice} ₽", size = 8.sp)
+                    }
+                }
+            }
+        }
     }
 
-    @Preview
     @Composable
-    fun BondsListPreview() {
-        MaterialTheme {
-            BondsList(state = BondsListState.Loading)
+    private fun BondsListLoadingView() {
+        LazyColumnFor(
+            items = IntRange(1, 20).toList()
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .preferredSize(32.dp)
+                        .clip(CircleShape)
+                        .background(getColor(R.color.color_DDDDDD))
+                )
+                Spacer(Modifier.preferredSize(16.dp))
+                Column {
+                    Row(
+                        modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Box(
+                            Modifier.preferredSize(200.dp, 12.dp)
+                                .background(getColor(R.color.color_DDDDDD))
+                        )
+                        Box(
+                            Modifier.preferredSize(40.dp, 12.dp)
+                                .background(getColor(R.color.color_DDDDDD))
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth().fillMaxHeight().padding(top = 8.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Box(
+                            Modifier.preferredSize(100.dp, 12.dp)
+                                .background(getColor(R.color.color_DDDDDD))
+                        )
+                        Box(
+                            Modifier.preferredSize(26.dp, 12.dp)
+                                .background(getColor(R.color.color_DDDDDD))
+                        )
+                    }
+                }
+            }
         }
     }
 }

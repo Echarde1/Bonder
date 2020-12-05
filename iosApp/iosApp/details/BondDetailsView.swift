@@ -56,7 +56,7 @@ struct BondDetailsView: View {
 struct BondDetailsVIew_Previews: PreviewProvider {
     static var previews: some View {
         BondDetailsView(details: "", proxy: BondsDetailsProxy(bondListEntity: BondListEntity(
-                firstLetter: "x", secId: "RU000A0JNYN1", bondName: "IГор.Обл.Займ Москвы 48 в. мамку твою ебал в", couponPercent: 6.5, prevPrice: 8.7, maturityDate: "MaturityDate", offerDate: "OfferDate", accumulatedCouponIncome: 123.0, duration: 56, listLevel: 123, couponValue: 1.23
+                    firstLetter: "x", secId: "RU000A0JNYN1", bondName: "IГор.Обл.Займ Москвы 48 в. мамку твою ебал в", couponPercent: 6.5, prevPrice: 8.7, maturityDate: "MaturityDate", offerDate: "OfferDate", accumulatedCouponIncome: 123.0, duration: 56, listLevel: 123, couponValue: 1.23
         )))
     }
 }

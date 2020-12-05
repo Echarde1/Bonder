@@ -6,12 +6,12 @@ sealed class BondDetailsState {
 
     object Loading : BondDetailsState()
 
-    class Error(
-        val th: Throwable
-    ) : BondDetailsState()
-
     class Success(
         val result: BondDetailsEntity
+    ) : BondDetailsState()
+
+    class Error(
+        val th: Throwable
     ) : BondDetailsState()
 
 }

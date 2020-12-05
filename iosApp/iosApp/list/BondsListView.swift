@@ -115,7 +115,7 @@ struct BondsListLoadingView: View {
                     }.padding(.top, 0.5)
                 }
             }
-        } // .listSeparatorStyle(style: .none) не работает
+        }.listSeparatorStyle(style: .none)
     }
 
     private let viewStubColor: UIColor! = UIColor(named: "DDDDDD")
